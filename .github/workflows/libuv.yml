@@ -18,6 +18,8 @@ jobs:
         run: |
           cd C:\ ; git clone --depth=1 https://github.com/libuv/libuv.git ; cd libuv
           curl https://raw.githubusercontent.com/axojhf/zig_c_cxx_build/libuv/build.zig -o build.zig
+          ls
+          zig version
           zig build
       - name: Pack Packages
         run: |
