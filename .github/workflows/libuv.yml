@@ -22,7 +22,7 @@ jobs:
           ls
       - name: Pack Packages
         run: |
-          7z a libuv_zig_static.7z C:\libuv\zig_out
+          7z a libuv_zig_static.7z C:\libuv\zig-out
       - uses: actions/upload-artifact@v3
         with:
           name: libuv_zig_static
