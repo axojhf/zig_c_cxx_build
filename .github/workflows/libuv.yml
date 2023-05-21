@@ -17,10 +17,9 @@ jobs:
       - name: Build
         run: |
           cd C:\ ; git clone --depth=1 https://github.com/libuv/libuv.git ; cd libuv
-          curl https://raw.githubusercontent.com/axojhf/zig_c_cxx_build/libuv/build.zig -o build.zig
-          ls
-          zig version
+          curl --silent https://raw.githubusercontent.com/axojhf/zig_c_cxx_build/libuv/build.zig -o build.zig
           zig build
+          ls
       - name: Pack Packages
         run: |
           7z a libuv_zig_static.7z C:\libuv\zig_out
