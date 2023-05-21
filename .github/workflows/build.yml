@@ -16,7 +16,7 @@ jobs:
         #   7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
       - name: Build
         run: |
-          
+          zig version
       # - name: Package Directories
       #   run: |
       #     cp -r C:\curl_install\lib C:\cpr_install -Force
