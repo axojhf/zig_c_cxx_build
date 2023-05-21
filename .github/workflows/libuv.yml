@@ -1,12 +1,12 @@
-name: Demo Build
+name: libuv Build
 
 on:
   push:
     branches:
-      - main
+      - libuv
 jobs:
-  demo-build:
-    name: Demo Build
+  libuv-build:
+    name: libuv Build
     runs-on: windows-latest
     steps:
       - uses: goto-bus-stop/setup-zig@v2
@@ -16,16 +16,16 @@ jobs:
         #   7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
       - name: Build
         run: |
-          zig version
-      # - name: Package Directories
-      #   run: |
-      #     cp -r C:\curl_install\lib C:\cpr_install -Force
-      #     cp -r C:\curl_install\include C:\cpr_install -Force
-      #     7z a cpr_MinGW64_Static.7z C:\cpr_install
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: cpr_MinGW64_Static
-      #     path: cpr_MinGW64_Static.7z
+          cd C:\ ; git clone --depth=1 https://github.com/libuv/libuv.git ; cd libuv
+          curl https://raw.githubusercontent.com/axojhf/zig_c_cxx_build/libuv/build.zig -o build.zig
+          zig build
+      - name: Pack Packages
+        run: |
+          7z a libuv_zig_static.7z C:\libuv\zig_out
+      - uses: actions/upload-artifact@v3
+        with:
+          name: libuv_zig_static
+          path: libuv_zig_static.7z
       # - name: Update Cpr Release
       #   uses: softprops/action-gh-release@v1
       #   with:
