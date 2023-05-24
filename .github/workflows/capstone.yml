@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: goto-bus-stop/setup-zig@v2
-      - name: Build
+      - name: Build Static
         run: |
           cd C:\ ; git clone --depth=1 https://github.com/capstone-engine/capstone.git ; cd capstone
           curl --silent https://raw.githubusercontent.com/axojhf/zig_c_cxx_build/capstone/build.zig -o build.zig
@@ -18,7 +18,20 @@ jobs:
       - name: Pack Packages
         run: |
           7z a capstone_zig_static.7z C:\capstone\zig-out
-      - uses: actions/upload-artifact@v3
+      - name: Build Shared
+        run: |
+          cd C:\capstone ; rm -r -Force C:\capstone\zig-out
+          zig build -DShared=true
+      - name: Pack Packages
+        run: |
+          7z a capstone_zig_shared.7z C:\capstone\zig-out
+      - name: Upload Static Packages
+        uses: actions/upload-artifact@v3
         with:
           name: capstone_zig_static
           path: capstone_zig_static.7z
+      - name: Upload Shared Packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: capstone_zig_shared
+          path: capstone_zig_shared.7z
