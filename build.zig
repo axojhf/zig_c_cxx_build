@@ -42,7 +42,7 @@ pub fn build(b: *std.Build) !void {
     if (CAPSTONE_BUILD_DIET) {
         lib.defineCMacro("CAPSTONE_DIET", "");
     } else {
-        lib.addCSourceFiles("arch/X86/X86ATTInstPrinter.c", compile_flags);
+        lib.addCSourceFile("arch/X86/X86ATTInstPrinter.c", compile_flags);
     }
     if (CAPSTONE_USE_DEFAULT_ALLOC) {
         lib.defineCMacro("CAPSTONE_USE_SYS_DYN_MEM", "");
