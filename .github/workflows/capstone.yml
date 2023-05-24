@@ -1,0 +1,24 @@
+name: capstone Build
+
+on:
+  push:
+    branches:
+      - capstone
+jobs:
+  capstone-build:
+    name: capstone Build
+    runs-on: windows-latest
+    steps:
+      - uses: goto-bus-stop/setup-zig@v2
+      - name: Build
+        run: |
+          cd C:\ ; git clone --depth=1 https://github.com/capstone-engine/capstone.git ; cd capstone
+          curl --silent https://raw.githubusercontent.com/axojhf/zig_c_cxx_build/capstone/build.zig -o build.zig
+          zig build --help ; zig build
+      - name: Pack Packages
+        run: |
+          7z a capstone_zig_static.7z C:\capstone\zig-out
+      - uses: actions/upload-artifact@v3
+        with:
+          name: capstone_zig_static
+          path: capstone_zig_static.7z
