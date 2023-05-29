@@ -1,0 +1,30 @@
+name: Arocc Build
+
+on:
+  push:
+    branches:
+      - arocc
+jobs:
+  arocc-build:
+    name: Arocc Build
+    runs-on: windows-latest
+    steps:
+      - uses: goto-bus-stop/setup-zig@v2
+      - name: Build ReleaseFast
+        run: |
+          cd C:\ ; git clone --depth=1 https://github.com/Vexu/arocc.git ; cd arocc
+          zig build -Doptimize=ReleaseFast
+      - name: Pack Packages
+        run: |
+          7z a arocc_releasefast.7z C:\arocc\zig-out
+      - name: Upload Packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: arocc_releasefast
+          path: arocc_releasefast.7z
+      - name: Update Arocc Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: arocc-build
+          files: |
+            arocc_releasefast.7z
