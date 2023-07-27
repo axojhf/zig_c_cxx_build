@@ -7,19 +7,19 @@ on:
 jobs:
   demo-build:
     name: buzz-language Build
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: goto-bus-stop/setup-zig@v2
       - name: Build
         run: |
-          cd C:\ ; git clone --depth=1 https://github.com/buzz-language/buzz.git ; cd buzz
+          git clone --depth=1 https://github.com/buzz-language/buzz.git ; cd buzz
           git submodule update --init
-          zig build -Doptimize=ReleaseSafe
-      - name: Pack Packages
-        run: |
-          7z a buzz.7z C:\buzz\zig-out
+          zig build -Doptimize=ReleaseSafe -Dtarget=x86_64-windows-gnu
+#       - name: Pack Packages
+#         run: |
+#           7z a buzz.7z ./buzz/zig-out
       - name: Upload Packages
         uses: actions/upload-artifact@v3
         with:
           name: buzz
-          path: buzz.7z
+          path: ./buzz/zig-out
